@@ -6,25 +6,28 @@
         var interval = setInterval(function() {
           // Get the time
           var date_object = new Date();
-          var date_array = [];
-          date_array.push( date_object.getHours().toString() );
-          date_array.push( date_object.getMinutes().toString() );
-          date_array.push( date_object.getSeconds().toString() );
+          var time_object = { "raw_hours" : date_object.getHours().toString(),
+                              "fun_hours" : ( date_object.getHours() * 10 ).toString(16),
+                              "minutes"   : date_object.getMinutes().toString(),
+                              "seconds"   : date_object.getSeconds().toString()
+          };
 
           // Ensure each component of the time is a two-digit value
-          date_array.forEach(function(element, index, array) {
-            if (element.length < 2) {
-              array[index] = "0" + element;
-            }
+          Object.keys( time_object ).forEach( function( time_object_key ) {
+            if ( time_object[time_object_key].length < 2 ) {
+              time_object[time_object_key] = "0" + time_object[time_object_key];
+            };
           });
 
           // Build up the color hex string
-          var color_hex_string = "#" + date_array.join('');
+          var color_hex_string = "#" + time_object["fun_hours"] + time_object["minutes"] + time_object["seconds"];
 
           // Set the background color
           document.body.style.backgroundColor = color_hex_string;
-          // Paint the values to their respective divs
-          document.getElementById("output_div").innerHTML = "<p>" + date_array.join(":") + "</p><br><p>" + color_hex_string + "</p>";
+
+          // Paint the values to the div
+          var time_string = [time_object["raw_hours"], time_object["minutes"], time_object["seconds"]].join(":");
+          document.getElementById("output_div").innerHTML = "<p>" + time_string + "</p><br><p>" + color_hex_string + "</p>";
         }, 1000);
 
       });
