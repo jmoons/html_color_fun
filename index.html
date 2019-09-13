@@ -3,7 +3,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", function() {
 
-        var interval = setInterval(function() {
+        var interval = setInterval( function() {
           // Get the time
           var date_object = new Date();
 
@@ -22,9 +22,9 @@
                               get_two_character_representation( date_object.getSeconds() ) ].join(":");
 
           // Update our DOM
-          document.getElementById("output_div").innerHTML = "<p>" + time_string + "</p><br><p>" + color_hex_string + "</p>";
-
-        }, 1000);
+          document.getElementById("time_div").innerHTML = time_string;
+          document.getElementById("color_div").innerHTML = color_hex_string;
+        }, 1000 );
 
         function get_two_character_representation( raw_input ) {
           var sanitized_string = raw_input.toString();
@@ -42,22 +42,34 @@
       });
     </script>
     <style type='text/css'>
-      div {
-        width: 100%;
-        height: 800px;
-        margin-top: 400px;
-        text-align: center;
-      }
-      p {
+      .text {
+        width:        100%;
+        text-align:   center;
         color:        white;
+        font-family:  "Verdana";
+        margin:       0px;
+      }
+      #container {
+        position:     relative;
+      }
+      #time_div {
+        position:     absolute;
+        margin-top:   300px;
+        font-size:    xx-large;
+      }
+      #color_div {
+        position:     absolute;
+        margin-top:   350px;
         font-size:    large;
-        font-family:  Verdana;
-        margin: 0px;
       }
     </style>
   </head>
   <body>
-    <div id="output_div">
+    <div id="container">
+      <div id="time_div" class="text">
+      </div>
+      <div id="color_div" class="text">
+      </div>
     </div>
   </body>
 </html>
