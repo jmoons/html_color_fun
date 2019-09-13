@@ -6,29 +6,38 @@
         var interval = setInterval(function() {
           // Get the time
           var date_object = new Date();
-          var time_object = { "raw_hours" : date_object.getHours().toString(),
-                              "fun_hours" : ( date_object.getHours() * 10 ).toString(16),
-                              "minutes"   : date_object.getMinutes().toString(),
-                              "seconds"   : date_object.getSeconds().toString()
-          };
-
-          // Ensure each component of the time is a two-digit value
-          Object.keys( time_object ).forEach( function( time_object_key ) {
-            if ( time_object[time_object_key].length < 2 ) {
-              time_object[time_object_key] = "0" + time_object[time_object_key];
-            };
-          });
 
           // Build up the color hex string
-          var color_hex_string = "#" + time_object["fun_hours"] + time_object["minutes"] + time_object["seconds"];
+          var color_hex_string =  "#" +
+                                  get_two_character_representation( get_fun_hours_representation( date_object.getHours() ) ) +
+                                  get_two_character_representation( date_object.getMinutes() ) +
+                                  get_two_character_representation( date_object.getSeconds() );
 
           // Set the background color
           document.body.style.backgroundColor = color_hex_string;
 
-          // Paint the values to the div
-          var time_string = [time_object["raw_hours"], time_object["minutes"], time_object["seconds"]].join(":");
+          // Build up the time string
+          var time_string = [ get_two_character_representation( date_object.getHours() ),
+                              get_two_character_representation( date_object.getMinutes() ),
+                              get_two_character_representation( date_object.getSeconds() ) ].join(":");
+
+          // Update our DOM
           document.getElementById("output_div").innerHTML = "<p>" + time_string + "</p><br><p>" + color_hex_string + "</p>";
+
         }, 1000);
+
+        function get_two_character_representation( raw_input ) {
+          var sanitized_string = raw_input.toString();
+          if ( sanitized_string.length < 2 ) {
+            sanitized_string = "0" + sanitized_string;
+          };
+
+          return sanitized_string;
+        }
+
+        function get_fun_hours_representation( raw_hours ) {
+          return ( raw_hours * 10 ).toString(16);
+        }
 
       });
     </script>
